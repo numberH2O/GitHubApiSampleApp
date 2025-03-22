@@ -12,10 +12,10 @@ class MainViewModel : ViewModel() {
         MutableLiveData<SearchResult>()
     }
 
-    fun search() {
+    fun search(searchWord: String) {
         viewModelScope.launch {
             val result = runCatching {
-                gitHubRepository.getSearchResult("Android")
+                gitHubRepository.getSearchResult(q = searchWord)
             }
 
             result.onSuccess {
