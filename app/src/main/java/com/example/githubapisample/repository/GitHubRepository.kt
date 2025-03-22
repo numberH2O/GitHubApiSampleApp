@@ -35,6 +35,3 @@ class GitHubRepository {
         ).toSearchResult()
     }
 }
-
-
-
