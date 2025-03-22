@@ -12,9 +12,6 @@ class MainViewModel : ViewModel() {
         MutableLiveData<SearchResult>()
     }
 
-    var searchWord = ""
-    var textField = ""
-
     fun search() {
         viewModelScope.launch {
             val result = runCatching {
