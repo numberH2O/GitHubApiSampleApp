@@ -1,6 +1,5 @@
 package com.example.githubapisample.ui.main
 
-import android.opengl.Visibility
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -24,6 +23,7 @@ class MainFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
 
+    private lateinit var searchButton: Button
     private lateinit var listView: ListView
 
     private lateinit var repositoryNameAdapter: RepositoryNameAdapter
@@ -44,18 +44,20 @@ class MainFragment : Fragment() {
         listView = view.findViewById(R.id.listview)
         listView.adapter = repositoryNameAdapter
 
-        view.findViewById<Button>(R.id.search_button).setOnClickListener {
+        searchButton = view.findViewById(R.id.search_button)
+        searchButton.setOnClickListener {
+            val searchWord = view.findViewById<EditText>(R.id.search_word).text.toString()
+            // 検索処理
+            viewModel.search(searchWord)
+            // 検索文字列を保存
+            view.findViewById<TextView>(R.id.searched_word).text = searchWord
+
             // 検索結果をリセット
             listView.adapter = repositoryNameAdapter
 
             // 検索したので検索文字列を表示
-            view.findViewById<ConstraintLayout>(R.id.searched_word_area).visibility = View.VISIBLE
-
-            val searchWord = view.findViewById<EditText>(R.id.search_word).text.toString()
-            // 検索文字列を保存
-            view.findViewById<TextView>(R.id.searched_word).text = searchWord
-            // 検索処理
-            viewModel.search(searchWord)
+            view.findViewById<ConstraintLayout>(R.id.searched_word_area).visibility =
+                View.VISIBLE
         }
 
         return view
@@ -69,7 +71,7 @@ class MainFragment : Fragment() {
     }
 
     private fun startObserve() {
-        val observer = Observer<SearchResult> {
+        val resultObserver = Observer<SearchResult> {
             listView.adapter = RepositoryNameAdapter(
                 context = context!!,
                 resource = R.layout.list_item,
@@ -79,7 +81,17 @@ class MainFragment : Fragment() {
 
         viewModel.repositoryNames.observe(
             this,
-            observer,
+            resultObserver,
+        )
+
+        val searchingObserver = Observer<Boolean> {
+            // 検索中はクリックできなくする
+            searchButton.isClickable = !it
+        }
+
+        viewModel.isSearching.observe(
+            this,
+            searchingObserver,
         )
     }
 }
