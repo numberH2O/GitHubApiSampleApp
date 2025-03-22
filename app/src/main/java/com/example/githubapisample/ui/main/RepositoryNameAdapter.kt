@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.githubapisample.R
 
+/**
+ * 検索結果のリポジトリ名を表示するためのアダプタ
+ */
 class RepositoryNameAdapter(
     context: Context,
     private val resource: Int,
