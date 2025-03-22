@@ -17,6 +17,8 @@ class MainFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
 
+    private lateinit var listView: ListView
+
     private lateinit var repositoryNameAdapter: RepositoryNameAdapter
 
     override fun onCreateView(
@@ -31,7 +33,8 @@ class MainFragment : Fragment() {
         )
 
         val view = inflater.inflate(R.layout.main_fragment, container, false)
-        view.findViewById<ListView>(R.id.listview).adapter = repositoryNameAdapter
+        listView = view.findViewById(R.id.listview)
+        listView.adapter = repositoryNameAdapter
         return view
     }
 
