@@ -1,5 +1,6 @@
 package com.example.githubapisample.repository
 
+import com.example.githubapisample.const.baseUrl
 import com.example.githubapisample.service.GitHubApiService
 import com.example.githubapisample.data.local.SearchResult
 import com.example.githubapisample.data.converter.toSearchResult
@@ -9,8 +10,6 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class GitHubRepository {
-    private val baseUrl = "https://api.github.com"
-
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
