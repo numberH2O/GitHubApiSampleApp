@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 35
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "com.example.githubapisample"
         minSdkVersion 23
-        targetSdkVersion 35
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
