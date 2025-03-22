@@ -51,7 +51,7 @@ class MainFragment : Fragment() {
         listView = rootView.findViewById(R.id.listview)
         listView.adapter = repositoryNameAdapter
 
-        editEditText = rootView.findViewById(R.id.searched_word)
+        editEditText = rootView.findViewById(R.id.search_word)
 
         searchButton = rootView.findViewById(R.id.search_button)
         searchButton.setOnClickListener {
