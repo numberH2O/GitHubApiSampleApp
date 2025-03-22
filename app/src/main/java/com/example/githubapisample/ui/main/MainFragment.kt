@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
+import androidx.lifecycle.Observer
 import com.example.githubapisample.R
+import com.example.githubapisample.data.local.SearchResult
 
 class MainFragment : Fragment() {
 
@@ -16,17 +19,48 @@ class MainFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
 
+    private lateinit var listView: ListView
+
+    private lateinit var repositoryNameAdapter: RepositoryNameAdapter
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        repositoryNameAdapter = RepositoryNameAdapter(
+            context = context!!,
+            resource = R.layout.list_item,
+            items = emptyList(),
+        )
+
+        val view = inflater.inflate(R.layout.main_fragment, container, false)
+        listView = view.findViewById(R.id.listview)
+        listView.adapter = repositoryNameAdapter
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        startObserve()
+
+        viewModel.search()
     }
 
+    private fun startObserve(){
+        val observer = Observer<SearchResult> {
+            listView.adapter = RepositoryNameAdapter(
+                context = context!!,
+                resource = R.layout.list_item,
+                items = it.nameList,
+            )
+        }
+
+        viewModel.repositoryNames.observe(
+            this,
+            observer,
+        )
+    }
 }
