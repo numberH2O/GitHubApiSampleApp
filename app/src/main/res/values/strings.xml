@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GitHubApiSample</string>
+    <string name="search">検索</string>
+    <string name="searched_word">検索した文字</string>
 </resources>
