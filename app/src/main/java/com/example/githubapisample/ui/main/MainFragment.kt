@@ -3,12 +3,10 @@ package com.example.githubapisample.ui.main
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -18,7 +16,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import com.example.githubapisample.R
 import com.example.githubapisample.data.local.SearchResult
-import kotlinx.coroutines.*
 
 class MainFragment : Fragment() {
 
@@ -112,8 +109,6 @@ class MainFragment : Fragment() {
         )
 
         val searchingObserver = Observer<Boolean> {
-            searchButton.isClickable = !it
-
             // 検索中は文字を表示
             searchingView.visibility = if (it) {
                 View.VISIBLE
