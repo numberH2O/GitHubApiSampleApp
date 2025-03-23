@@ -3,12 +3,10 @@ package com.example.githubapisample.ui.main
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -30,6 +28,7 @@ class MainFragment : Fragment() {
     private lateinit var searchButton: Button
     private lateinit var editEditText: EditText
     private lateinit var listView: ListView
+    private lateinit var searchingView: TextView
 
     private lateinit var rootView: View
 
@@ -52,6 +51,8 @@ class MainFragment : Fragment() {
         listView.adapter = repositoryNameAdapter
 
         editEditText = rootView.findViewById(R.id.search_word)
+
+        searchingView = rootView.findViewById(R.id.searching)
 
         searchButton = rootView.findViewById(R.id.search_button)
         searchButton.setOnClickListener {
@@ -108,8 +109,12 @@ class MainFragment : Fragment() {
         )
 
         val searchingObserver = Observer<Boolean> {
-            // 検索中はクリックできなくする
-            searchButton.isClickable = !it
+            // 検索中は文字を表示
+            searchingView.visibility = if (it) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
         }
 
         viewModel.isSearching.observe(
