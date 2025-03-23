@@ -19,10 +19,20 @@ class MainViewModel : ViewModel() {
         MutableLiveData<Boolean>(false)
     }
 
+    /**
+     * エラー時に表示する文字
+     */
+    val isError: MutableLiveData<String?> by lazy {
+        MutableLiveData<String?>(null)
+    }
+
     fun search(searchWord: String) {
         viewModelScope.launch {
             //　検索開始
             isSearching.value = true
+
+            // エラー状態リセット
+            isError.value = null
 
             val result = runCatching {
                 gitHubRepository.getSearchResult(query = searchWord)
@@ -32,6 +42,7 @@ class MainViewModel : ViewModel() {
                 repositoryNames.value = it
             }.onFailure {
                 // エラー処理
+                isError.value = "エラーが発生しました"
             }
 
             //　検索修了
