@@ -41,6 +41,7 @@ class MainViewModel : ViewModel() {
             result.onSuccess {
                 repositoryNames.value = it
             }.onFailure {
+                // エラー処理
                 isError.value = "エラーが発生しました"
             }
 
