@@ -18,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import com.example.githubapisample.R
 import com.example.githubapisample.data.local.SearchResult
+import kotlinx.coroutines.*
 
 class MainFragment : Fragment() {
 
@@ -30,6 +31,7 @@ class MainFragment : Fragment() {
     private lateinit var searchButton: Button
     private lateinit var editEditText: EditText
     private lateinit var listView: ListView
+    private lateinit var searchingView: TextView
 
     private lateinit var rootView: View
 
@@ -52,6 +54,8 @@ class MainFragment : Fragment() {
         listView.adapter = repositoryNameAdapter
 
         editEditText = rootView.findViewById(R.id.search_word)
+
+        searchingView = rootView.findViewById(R.id.searching)
 
         searchButton = rootView.findViewById(R.id.search_button)
         searchButton.setOnClickListener {
@@ -108,8 +112,14 @@ class MainFragment : Fragment() {
         )
 
         val searchingObserver = Observer<Boolean> {
-            // 検索中はクリックできなくする
             searchButton.isClickable = !it
+
+            // 検索中は文字を表示
+            searchingView.visibility = if (it) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
         }
 
         viewModel.isSearching.observe(
