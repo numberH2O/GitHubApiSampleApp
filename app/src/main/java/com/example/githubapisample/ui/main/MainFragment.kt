@@ -29,6 +29,7 @@ class MainFragment : Fragment() {
     private lateinit var editEditText: EditText
     private lateinit var listView: ListView
     private lateinit var searchingView: TextView
+    private lateinit var errorView: TextView
 
     private lateinit var rootView: View
 
@@ -53,6 +54,8 @@ class MainFragment : Fragment() {
         editEditText = rootView.findViewById(R.id.search_word)
 
         searchingView = rootView.findViewById(R.id.searching)
+
+        errorView = rootView.findViewById(R.id.error_message)
 
         searchButton = rootView.findViewById(R.id.search_button)
         searchButton.setOnClickListener {
@@ -120,6 +123,20 @@ class MainFragment : Fragment() {
         viewModel.isSearching.observe(
             this,
             searchingObserver,
+        )
+
+        val errorObserver = Observer<String?> {
+            if (it == null) {
+                errorView.visibility = View.GONE
+                return@Observer
+            }
+
+            errorView.visibility = View.VISIBLE
+            errorView.text = it
+        }
+        viewModel.isError.observe(
+            this,
+            errorObserver,
         )
     }
 }
